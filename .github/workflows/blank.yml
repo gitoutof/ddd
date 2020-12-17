@@ -61,6 +61,8 @@ jobs:
         run: |
           df -hT $PWD
           git clone --depth 1 -b $REPO_BRANCH $REPO_URL openwrt
+          ls -al /workdir
+          ls -al /workdir/openwrt
           ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
       # Runs a set of commands using the runners shell
