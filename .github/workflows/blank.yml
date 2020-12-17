@@ -1,16 +1,26 @@
 
 name: ddd
 
-
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
   workflow_dispatch:
 
-
+env:
+  REPO_URL: https://github.com/Lienol/openwrt
+  REPO_BRANCH: 19.07
+  FEEDS_CONF: feeds.conf.default
+  CONFIG_FILE: x86/lienol_bypass.config
+  DIY_P1_SH: x86/feed.sh
+  DIY_P2_SH: x86/diy_bypass.sh
+  UPLOAD_BIN_DIR: true
+  UPLOAD_FIRMWARE: true
+  UPLOAD_COWTRANSFER: true
+  UPLOAD_WETRANSFER: false
+  UPLOAD_RELEASE: false
+  TZ: Asia/Shanghai
 
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
