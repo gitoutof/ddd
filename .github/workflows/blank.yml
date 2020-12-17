@@ -42,10 +42,17 @@ jobs:
            whoami
            ls -al /etc/apt/sources.list.d/* 
            ls -al /usr/share/dotnet 
-           ls -al /usr/local/lib/android /opt/ghc
+           ls -al /usr/local/lib/android 
+           ls -al /opt/ghc
            sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
            sudo -E apt-get -qq update
-           sudo -E apt-get -qq update
+           
+           sudo -E apt-get -qq install $(curl https://raw.githubusercontent.com/Lienol/openwrt/19.07/README.md | grep -e 'sudo apt-get -y .*' | head -n1 | sed 's/sudo apt-get -y install //g')
+           sudo -E apt-get -qq autoremove --purge
+           sudo -E apt-get -qq clean
+           sudo timedatectl set-timezone "$TZ"
+           sudo mkdir -p /workdir
+           sudo chown $USER:$GROUPS /workdir
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
