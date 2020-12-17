@@ -34,8 +34,9 @@ jobs:
       - name: Initialization environment
         env:
           DEBIAN_FRONTEND: noninteractive
-        run: echo Hello, world!
-             echo $DEBIAN_FRONTEND
+        run: |
+           echo Hello, world!
+           echo $DEBIAN_FRONTEND
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
