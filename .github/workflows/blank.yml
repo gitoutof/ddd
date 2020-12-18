@@ -10,7 +10,7 @@ on:
 
 env:
   # https://github.com/gitoutof/openwrt
-  # https://github.com/Lienol/openwrt
+  ## https://github.com/Lienol/openwrt
   
   REPO_URL: https://github.com/gitoutof/openwrt
   REPO_BRANCH: 19.07
