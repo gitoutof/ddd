@@ -9,7 +9,10 @@ on:
   workflow_dispatch:
 
 env:
-  REPO_URL: https://github.com/Lienol/openwrt
+  # https://github.com/gitoutof/openwrt
+  # https://github.com/Lienol/openwrt
+  
+  REPO_URL: https://github.com/gitoutof/openwrt
   REPO_BRANCH: 19.07
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: x86/lienol_bypass.config
