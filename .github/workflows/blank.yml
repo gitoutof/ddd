@@ -17,7 +17,7 @@ env:
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: lienol_bypass.config
   DIY_P1_SH: feed.sh
-  DIY_P2_SH: x86/diy_bypass.sh
+  DIY_P2_SH: diy_bypass.sh
   UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: true
   UPLOAD_COWTRANSFER: true
@@ -124,7 +124,7 @@ jobs:
           [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
           
           [ -e files ] && ls -al openwrt/files
-          ls -al openwrt/.config
+          [ -e $CONFIG_FILE ] && ls -al openwrt/.config
           
           chmod +x $DIY_P2_SH
           cd openwrt
