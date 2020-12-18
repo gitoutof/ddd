@@ -113,6 +113,8 @@ jobs:
           ls -al
           cd openwrt 
           ls -al
+          ls -al feeds/
+          cat feeds/feeds.conf
           ./scripts/feeds install -a
           
       - name: Load custom configuration
