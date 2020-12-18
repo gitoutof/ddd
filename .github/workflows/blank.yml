@@ -84,10 +84,12 @@ jobs:
           ls -al
           pwd
           [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
-          cat feeds.conf.default
+          cat openwrt/feeds.conf.default
           
           chmod +x $DIY_P1_SH
           cd openwrt
+          pwd 
+          ls -al
           $GITHUB_WORKSPACE/$DIY_P1_SH
 
       # Runs a set of commands using the runners shell
