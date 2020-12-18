@@ -135,6 +135,20 @@ jobs:
           
           #    cat packate/lean/default-settings/files/zzz-default-settings
           cat package/base-files/files/bin/config_generate |grep ntp
+          
+          cat $GITHUB_WORKSPACE/$DIY_P2_SH
+          
+      - name: Download package
+        id: package
+        run: |
+          cd openwrt
+          ls -al
+          
+          make defconfig
+          make download -j8
+          
+          find dl -size -1024c -exec ls -l {} \;
+          find dl -size -1024c -exec rm -f {} \;
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
