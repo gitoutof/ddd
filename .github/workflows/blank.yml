@@ -90,6 +90,7 @@ jobs:
           cd openwrt
           pwd 
           ls -al
+          cat $GITHUB_WORKSPACE/$DIY_P1_SH
           $GITHUB_WORKSPACE/$DIY_P1_SH
 
       # Runs a set of commands using the runners shell
