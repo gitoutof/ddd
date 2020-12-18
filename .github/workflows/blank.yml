@@ -130,6 +130,10 @@ jobs:
           cd openwrt
           cat $GITHUB_WORKSPACE/$DIY_P2_SH
           $GITHUB_WORKSPACE/$DIY_P2_SH
+          
+          cat package/base-files/files/bin/config_generate |grep 192
+          cat packate/lean/default-settings/files/zzz-default-settings
+          cat package/base-files/files/bin/config_generate |grep ntp
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
