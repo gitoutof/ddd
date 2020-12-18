@@ -64,6 +64,7 @@ jobs:
           ls -al /workdir
           ls -al /workdir/openwrt
           ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+          cat openwrt/feeds.conf.default
           
       - name: Clone other packages
         run: |
