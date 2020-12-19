@@ -112,12 +112,13 @@ jobs:
           rm -rf ./feeds/packages/net/smartdns
           
           ls -al
+          ls -al ./scripts
           echo ========
-          feeds list -n
+          ./scripts/feeds list -n
           echo ========
-          feeds list -s
+          ./scripts/feeds list -s
           echo ========
-          feeds list -f
+          ./scripts/feeds list -f
 
       - name: Install feeds
         run: |
