@@ -110,6 +110,14 @@ jobs:
           
           rm -rf ./feeds/luci/applications/luci-app-smartdns
           rm -rf ./feeds/packages/net/smartdns
+          
+          ls -al
+          echo ========
+          feeds list -n
+          echo ========
+          feeds list -s
+          echo ========
+          feeds list -f
 
       - name: Install feeds
         run: |
