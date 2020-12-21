@@ -2,10 +2,6 @@
 name: ddd
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
     inputs:
       ssh:
@@ -13,18 +9,17 @@ on:
         required: false
         default: 'false'
 env:
-  # https://github.com/gitoutof/openwrt
-  ## https://github.com/Lienol/openwrt
   
   REPO_URL: https://github.com/gitoutof/openwrt
   REPO_BRANCH: 19.07
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: lienol_bypass.config
+  #CONFIG_FILE: lienol_bypass.config
   DIY_P1_SH: feed.sh
   DIY_P2_SH: diy_bypass.sh
+  SSH_ACTION: false
   UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: true
-  UPLOAD_COWTRANSFER: true
+  UPLOAD_COWTRANSFER: false
   UPLOAD_WETRANSFER: false
   UPLOAD_RELEASE: false
   TZ: Asia/Shanghai
@@ -33,8 +28,12 @@ env:
 jobs:
   build:
     runs-on: ubuntu-18.04
+    if: github.event.repository.owner.id == github.event.sender.id
 
     steps:
+      - name: Send greeting
+        run: echo "Hello ${{ github.event.inputs.ssh }}"
+
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -57,11 +56,12 @@ jobs:
            curl https://raw.githubusercontent.com/Lienol/openwrt/19.07/README.md | grep -e 'sudo apt-get -y .*' | head -n1 | sed 's/sudo apt-get -y install //g'
    
            sudo -E apt-get -qq install $(curl https://raw.githubusercontent.com/Lienol/openwrt/19.07/README.md | grep -e 'sudo apt-get -y .*' | head -n1 | sed 's/sudo apt-get -y install //g')
+           sudo -E apt-get -qq install python-dns python-django python-twisted python-yaml python-parsley
            sudo -E apt-get -qq autoremove --purge
            sudo -E apt-get -qq clean
            sudo timedatectl set-timezone "$TZ"
            sudo mkdir -p /workdir
-           sudo chown $USER:$GROUPS /workdir
+           #sudo chown $USER:$GROUPS /workdir
            
       - name: Clone source code
         working-directory: /workdir
@@ -76,15 +76,15 @@ jobs:
       - name: Clone other packages
         run: |
           ls -al /workdir/openwrt/package
-          git clone --depth 1 https://github.com/esirplayground/luci-theme-atmaterial-ColorIcon.git openwrt/package/luci-theme-atmaterial-ColorIcon
+          #git clone --depth 1 https://github.com/esirplayground/luci-theme-atmaterial-ColorIcon.git openwrt/package/luci-theme-atmaterial-ColorIcon
           ls -al /workdir/openwrt/package
           pwd
           ls -al
-          git clone --depth 1 https://github.com/rosywrt/luci-theme-rosy.git && mv luci-theme-rosy/luci-theme-rosy openwrt/package/luci-theme-rosy
+          #git clone --depth 1 https://github.com/rosywrt/luci-theme-rosy.git && mv luci-theme-rosy/luci-theme-rosy openwrt/package/luci-theme-rosy
           ls -al
           git clone --depth 1 -b master https://github.com/vernesong/OpenClash.git && mv OpenClash/luci-app-openclash openwrt/package/luci-app-openclash
-          git clone --depth 1 https://github.com/pymumu/smartdns.git openwrt/package/smartdns
-          git clone --depth 1 -b lede https://github.com/pymumu/luci-app-smartdns.git openwrt/package/luci-app-smartdns
+          #git clone --depth 1 https://github.com/pymumu/smartdns.git openwrt/package/smartdns
+          #git clone --depth 1 -b lede https://github.com/pymumu/luci-app-smartdns.git openwrt/package/luci-app-smartdns
           ls -al /workdir/openwrt/package
           
       - name: Load custom feeds
@@ -99,6 +99,7 @@ jobs:
           pwd 
           ls -al
           cat $GITHUB_WORKSPACE/$DIY_P1_SH
+          
           $GITHUB_WORKSPACE/$DIY_P1_SH
           
       - name: Update feeds
@@ -189,16 +190,13 @@ jobs:
           
           echo "::set-output name=status::success"
           
-          grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+          ##grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
           
-          [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
+          ##[ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
           
-          echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
+          ##echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
           
           echo =====display--$dighub_env--device-name====
-          echo $GITHUB_ENV
-          cat DEVICE_NAME
-          echo $DEVICE_NAME
           
           
       - name: Check space usage
@@ -209,9 +207,10 @@ jobs:
         uses: actions/upload-artifact@main
         if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
         with:
-          name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
+          name: OpenWrt_bin_${{ steps.compile.outputs.DEVICE_NAME }}_${{ steps.compile.outputs.FILE_DATE }}
+          #name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
           path: openwrt/bin
-          
+           
           run: |
             ls -al
             echo openwrt/bin
@@ -230,9 +229,17 @@ jobs:
           ls -al
           
           echo ====$github_env=====
-          echo "FIRMWARE=$PWD" >> $GITHUB_ENV
+          echo "::set-output name=FIRMWARE::$PWD"
+          
+          ##echo "FIRMWARE=$PWD" >> $GITHUB_ENV
           echo "::set-output name=status::success"
           
+      - name: Upload firmware directory
+        uses: actions/upload-artifact@main
+        if: steps.organize.outputs.status == 'success' && !cancelled()
+        with:
+          name: OpenWrt_firmware_${{ steps.compile.outputs.DEVICE_NAME }}_${{ steps.compile.outputs.FILE_DATE }}
+          path: ${{ steps.organize.outputs.FIRMWARE }}
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
