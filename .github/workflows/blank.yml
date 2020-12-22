@@ -12,11 +12,11 @@ env:
   
   REPO_URL: https://github.com/gitoutof/openwrt
   REPO_BRANCH: 19.07
-  #FEEDS_CONF: feeds.conf.default
-  #CONFIG_FILE: lienol1_bypass.config
-  #DIY_P1_SH: feed.sh
-  #DIY_P2_SH: diy_bypass.sh
-  #SSH_ACTION: false
+  FEEDS_CONF: feeds.conf.default
+  CONFIG_FILE: lienol1_bypass.config
+  DIY_P1_SH: feed.sh
+  DIY_P2_SH: diy_bypass.sh
+  SSH_ACTION: false
   UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: true
   UPLOAD_COWTRANSFER: false
