@@ -13,7 +13,7 @@ env:
   REPO_URL: https://github.com/gitoutof/openwrt
   REPO_BRANCH: 19.07
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: lienol_bypass.config
+  CONFIG_FILE: lienol1_bypass.config
   DIY_P1_SH: feed.sh
   DIY_P2_SH: diy_bypass.sh
   SSH_ACTION: false
@@ -76,7 +76,7 @@ jobs:
       - name: Clone other packages
         run: |
           ls -al /workdir/openwrt/package
-          git clone --depth 1 https://github.com/esirplayground/luci-theme-atmaterial-ColorIcon.git openwrt/package/luci-theme-atmaterial-ColorIcon
+          #git clone --depth 1 https://github.com/esirplayground/luci-theme-atmaterial-ColorIcon.git openwrt/package/luci-theme-atmaterial-ColorIcon
           ls -al /workdir/openwrt/package
           pwd
           ls -al
