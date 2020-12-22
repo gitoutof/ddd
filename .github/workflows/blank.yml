@@ -76,13 +76,13 @@ jobs:
       - name: Clone other packages
         run: |
           ls -al /workdir/openwrt/package
-          #git clone --depth 1 https://github.com/esirplayground/luci-theme-atmaterial-ColorIcon.git openwrt/package/luci-theme-atmaterial-ColorIcon
+          git clone --depth 1 https://github.com/esirplayground/luci-theme-atmaterial-ColorIcon.git openwrt/package/luci-theme-atmaterial-ColorIcon
           ls -al /workdir/openwrt/package
           pwd
           ls -al
           #git clone --depth 1 https://github.com/rosywrt/luci-theme-rosy.git && mv luci-theme-rosy/luci-theme-rosy openwrt/package/luci-theme-rosy
           ls -al
-          git clone --depth 1 -b master https://github.com/vernesong/OpenClash.git && mv OpenClash/luci-app-openclash openwrt/package/luci-app-openclash
+          #git clone --depth 1 -b master https://github.com/vernesong/OpenClash.git && mv OpenClash/luci-app-openclash openwrt/package/luci-app-openclash
           #git clone --depth 1 https://github.com/pymumu/smartdns.git openwrt/package/smartdns
           #git clone --depth 1 -b lede https://github.com/pymumu/luci-app-smartdns.git openwrt/package/luci-app-smartdns
           ls -al /workdir/openwrt/package
