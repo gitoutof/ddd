@@ -106,29 +106,10 @@ jobs:
         run: |
           cd openwrt
           ./scripts/feeds update -a
-          ls -al ./feeds/luci/applications/luci-app-smartdns
-          ls -al ./feeds/packages/net/smartdns
-          
-          rm -rf ./feeds/luci/applications/luci-app-smartdns
-          rm -rf ./feeds/packages/net/smartdns
-          
-          ls -al
-          ls -al ./scripts
-          echo ========
-          ./scripts/feeds list -n
-          echo ========
-          ./scripts/feeds list -s
-          echo ========
-          ./scripts/feeds list -f
-
+      
       - name: Install feeds
         run: |
-          pwd
-          ls -al
           cd openwrt 
-          ls -al
-          ls -al feeds/
-          
           ./scripts/feeds install -a
           
       - name: Load custom configuration
