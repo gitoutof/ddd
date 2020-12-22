@@ -51,10 +51,12 @@ jobs:
            ls -al /usr/local/lib/android 
            ls -al /opt/ghc
            sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+           
            sudo -E apt-get -qq update
            
-           curl https://raw.githubusercontent.com/Lienol/openwrt/19.07/README.md | grep -e 'sudo apt-get -y .*' | head -n1 | sed 's/sudo apt-get -y install //g'
-   
+           
+           ### curl https://raw.githubusercontent.com/Lienol/openwrt/19.07/README.md | grep -e 'sudo apt-get -y .*' | head -n1 | sed 's/sudo apt-get -y install //g'
+           
            sudo -E apt-get -qq install $(curl https://raw.githubusercontent.com/Lienol/openwrt/19.07/README.md | grep -e 'sudo apt-get -y .*' | head -n1 | sed 's/sudo apt-get -y install //g')
            sudo -E apt-get -qq install python-dns python-django python-twisted python-yaml python-parsley
            sudo -E apt-get -qq autoremove --purge
